@@ -1,18 +1,20 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import Button from "@mui/material/Button";
-import TextField from '@mui/material/TextField';
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
+
+
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export function AddItemForm(props: AddItemFormPropsType) {
+
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
-    const addTask = () => {
-        let newTitle = title.trim();
-        if (newTitle !== "") {
+    const addItem = () => {
+        if (title.trim() !== "") {
             props.addItem(title);
             setTitle("");
         } else {
@@ -27,32 +29,21 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
-            addTask();
+            addItem();
         }
     }
 
-    const buttonStyle = {
-        maxWidth: '38px',
-        maxHeight: '38px',
-        minWidth: '38px',
-        minHeight: '38px',
-        backgroundColor: 'brown'
-    }
-
-    return (
-        <div>
-            <TextField
-                size='small'
-                id="outlined-basic"
-                label={error ? "Title is required" : 'Write'}
-                variant="outlined"
-                value={title}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-                error={!!error}
-            />
-            <Button style={buttonStyle} variant="contained" onClick={addTask}>+</Button>
-        </div>
-    );
-};
-
+    return <div>
+        <TextField variant="outlined"
+                   error={!!error}
+                   value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItem}>
+            <AddBox />
+        </IconButton>
+    </div>
+}
