@@ -1,6 +1,6 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import * as buffer from "buffer";
+import {AddTodolistAC} from "./todolists-reducer";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 
@@ -10,7 +10,13 @@ export type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 
 export type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 
-type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusType | ChangeTaskTitleType
+export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>
+
+type ActionType = RemoveTaskActionType
+    | AddTaskActionType
+    | ChangeTaskStatusType
+    | ChangeTaskTitleType
+    | AddTodolistActionType
 
 export const tasksReducer = (state: TasksStateType, action: ActionType) => {
     switch (action.type) {
@@ -24,17 +30,23 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
                 ...state,
                 [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistId]]
             }
-            case 'CHANGE-TASK-STATUS':
+        case 'CHANGE-TASK-STATUS':
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId]
-                    .map(t => t.id === action.taskId ? {...t, isDone: action.isDone}: t)
+                    .map(t => t.id === action.taskId ? {...t, isDone: action.isDone} : t)
             }
-            case 'CHANGE-TASK-TITLE':
+        case 'CHANGE-TASK-TITLE':
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId]
-                    .map(t => t.id === action.taskId ? {...t, title: action.title}: t)
+                    .map(t => t.id === action.taskId ? {...t, title: action.title} : t)
+            }
+        case 'ADD-TODOLIST':
+            return {
+                ...state,
+                [action.todolistId]: []
+
             }
         default:
             throw new Error("I don't understand this type")
