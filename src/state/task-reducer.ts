@@ -1,6 +1,6 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistAC} from "./todolists-reducer";
+import {AddTodolistAC, RemoveTodolistActionType} from "./todolists-reducer";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 
@@ -17,7 +17,7 @@ type ActionType = RemoveTaskActionType
     | ChangeTaskStatusType
     | ChangeTaskTitleType
     | AddTodolistActionType
-
+    | RemoveTodolistActionType
 export const tasksReducer = (state: TasksStateType, action: ActionType) => {
     switch (action.type) {
         case 'REMOVE-TASK':
@@ -48,6 +48,11 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
                 [action.todolistId]: []
 
             }
+        case 'REMOVE-TODOLIST': {
+            let copyState = {...state}
+            delete copyState[action.id]
+            return copyState
+        }
         default:
             throw new Error("I don't understand this type")
     }
