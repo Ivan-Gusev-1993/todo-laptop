@@ -1,6 +1,7 @@
 import {FilterValuesType, TaskType} from "./App";
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button} from "./Button";
+import {AddItemForm} from "./AddItemForm";
 
 type PropsType = {
 	title: string
@@ -8,58 +9,31 @@ type PropsType = {
 	removeTask: (taskId: string, todolistId: string) => void
 	filter: FilterValuesType
 	changeFilter: (filterValue: FilterValuesType, todolistId: string) => void
-	addTask: (title: string, todolistId: string) => void
+	addItem: (title: string, todolistId: string) => void
 	ChangeTaskStatus: (taskId:string, taskStatus: boolean, todolistId: string) => void
 	id: string
 	removeTodolist: (todolistId: string) => void
 }
 
-export const Todolist = ({title, tasks, removeTask, filter, changeFilter, addTask, ChangeTaskStatus, id, removeTodolist}: PropsType) => {
-
-	const [taskTitle, setTaskTitle] = useState('')
-	const [error, setError] = useState<string | null>(null)
-
-	const removeTodolistHandler = () => {
-		removeTodolist(id)
-	}
-
-	const addTaskHandler = () => {
-		if (taskTitle.trim() !== ''){
-			addTask(taskTitle.trim(), id)
-			setTaskTitle('')
-		} else {
-			setError('Title is required')
-		}
-	}
-
-	const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-		setTaskTitle(event.currentTarget.value)
-	}
-
-	const addTaskOnKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-		setError(null)
-		if (event.key === 'Enter') {
-			addTaskHandler()
-		}
-	}
+export const Todolist = ({title, tasks, removeTask, filter, changeFilter, addItem, ChangeTaskStatus, id, removeTodolist}: PropsType) => {
 
 	const changeFilterTasksHandler = (filterValue: FilterValuesType, id: string) => {
 		changeFilter(filterValue, id)
 	}
 
+	const removeTodolistHandler = () => {
+		removeTodolist(id)
+	}
+
 	return (
 		<div>
 			<h3>{title}<Button onClick={removeTodolistHandler} title={'x'}/></h3>
-			<div>
-				<input
-					className={error ? 'error' : ''}
-					value={taskTitle}
-					onChange={changeTaskTitleHandler}
-					onKeyUp={addTaskOnKeyUpHandler}
-				/>
-				<Button title={'+'} onClick={addTaskHandler}/>
-				{error && <div className={'error-message'}>{error}</div>}
-			</div>
+
+			<AddItemForm
+				id={id}
+				addItem={addItem}
+			/>
+
 			{
 				tasks.length === 0
 					? <p>Тасок нет</p>
