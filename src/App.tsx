@@ -3,6 +3,7 @@ import {Todolist} from "./Todolist";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import {Task} from "@mui/icons-material";
 
 export type TaskType = {
     id: string
@@ -16,6 +17,10 @@ export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
+}
+
+type TaskStateType = {
+    [key: string] :Array<TaskType>
 }
 
 function App() {
@@ -52,7 +57,7 @@ function App() {
         {id: todolistId2, title: "What to sale", filter: "all"}
     ]);
 
-    let [tasksObj, setTasksObj] = useState({
+    let [tasksObj, setTasksObj] = useState<TaskStateType>({
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -69,6 +74,14 @@ function App() {
         setTodolists([todolist, ...todolists])
         setTasksObj({...tasksObj, [todolist.id]:[]
         })
+    }
+
+    const onChangeTitle = (taskId: string, newTitle: string, todolistId: string) => {
+        setTasksObj({...tasksObj, [todolistId]: tasksObj[todolistId].map(t => t.id === taskId ? {...t, title: newTitle} : t )})
+    }
+
+    const ChangeTodolistTitle = (id:string, newTitle:string) => {
+        setTodolists(todolists.map(td => td.id === id ? {...td, title: newTitle} : td ))
     }
 
     return (
@@ -97,6 +110,8 @@ function App() {
                         addTask={addTask}
                         ChangeTaskStatus={ChangeTaskStatus}
                         removeTodolist={removeTodolist}
+                        onChangeTaskTitle={onChangeTitle}
+                        ChangeTodolistTitle={ChangeTodolistTitle}
                     />
                 )
             })}
