@@ -49,21 +49,21 @@ function App() {
      setTodolists(todolists.map ( todolist=> todolist.id === todolistId ? {...todolist, filter : filterValue} : todolist) )
     }
 
-    const todolistId1 = v1()
-    const todolistId2 = v1()
+    const todolistId01 = v1()
+    const todolistId02 = v1()
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to sale", filter: "all"}
+        {id: todolistId01, title: "What to learn", filter: "all"},
+        {id: todolistId02, title: "What to sale", filter: "all"}
     ]);
 
     let [tasksObj, setTasksObj] = useState<TaskStateType>({
-        [todolistId1]: [
+        [todolistId01]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
             {id: v1(), title: 'ReactJS', isDone: false}],
 
-        [todolistId2]: [
+        [todolistId02]: [
             {id: v1(), title: 'Laptop', isDone: false},
             {id: v1(), title: 'Xbox', isDone: true}]
 
