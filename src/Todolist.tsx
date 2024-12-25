@@ -4,7 +4,7 @@ import {Button} from "./Button";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 
-type PropsType = {
+type TodolistPropsType = {
 	title: string
 	tasks: TaskType[]
 	removeTask: (taskId: string, todolistId: string) => void
@@ -18,7 +18,7 @@ type PropsType = {
 	ChangeTodolistTitle: (todolistId: string, newTitle: string)=>void
 }
 
-export const Todolist = (props: PropsType) => {
+export const Todolist = (props: TodolistPropsType) => {
 
 	const changeFilterTasksHandler = (filterValue: FilterValuesType, id: string) => {
 		props.changeFilter(filterValue, id)
