@@ -8,6 +8,8 @@ export const Button = (props: ButtonPropsType) => {
 	return (
 		<button className={props.className} onClick={props.onClick}>
 			{props.title}
+			console.log(props.title)
 		</button>
+
 	)
 }
