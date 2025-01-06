@@ -1,6 +1,6 @@
 import {FilterValuesType, TaskType} from "./App";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "./Button";
+import {ButtonComponent} from "./ButtonComponent";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 
@@ -40,7 +40,7 @@ export const Todolist = (props: TodolistPropsType) => {
 		<div>
 			<h3>
 				<EditableSpan title={props.title} onChange={ChangeTodolistTitle}/>
-				<Button onClick={removeTodolistHandler} title={'x'}/>
+				<ButtonComponent onClick={removeTodolistHandler} title={'x'}/>
 			</h3>
 
 			<AddItemForm
@@ -69,25 +69,25 @@ export const Todolist = (props: TodolistPropsType) => {
 							return <li key={task.id} className={task.isDone ? 'is-done' : ''}>
 								<input type="checkbox" onChange={onChangeTaskStatusHandler} checked={task.isDone}/>
 								<EditableSpan title={task.title} onChange={onChangeTaskTitleValueHandler}/>
-								<Button onClick={removeTaskHandler} title={'x'}/>
+								<ButtonComponent onClick={removeTaskHandler} title={'x'}/>
 							</li>
 						})}
 					</ul>
 			}
 			<div>
-				<Button
+				<ButtonComponent
 					className={props.filter === 'all' ? 'active-filter' : ''}
 					title={'All'}
 					onClick={()=> changeFilterTasksHandler('all', props.id)}
 				/>
 
-				<Button
+				<ButtonComponent
 					className={props.filter === 'active' ? 'active-filter' : ''}
 					title={'Active'}
 					onClick={()=> changeFilterTasksHandler('active' , props.id)}
 				/>
 
-				<Button
+				<ButtonComponent
 					className={props.filter === 'completed' ? 'active-filter' : ''}
 					title={'Completed'}
 					onClick={()=> changeFilterTasksHandler('completed' , props.id)}

@@ -1,5 +1,5 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "./Button";
+import {ButtonComponent} from "./ButtonComponent";
 
 type AddItemFormPropsType = {
     addItem:(title: string) => void
@@ -38,7 +38,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
                 onKeyUp={addTaskOnKeyUpHandler}
             />
 
-            <Button
+            <ButtonComponent
                 title={'+'}
                 onClick={addTaskHandler }
             />
