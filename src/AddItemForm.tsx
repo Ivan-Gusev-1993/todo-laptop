@@ -39,6 +39,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
             />
 
             <ButtonComponent
+                variant="contained"
                 title={'+'}
                 onClick={addTaskHandler }
             />

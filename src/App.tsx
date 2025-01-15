@@ -111,7 +111,7 @@ function App() {
                         ChangeTaskStatus={ChangeTaskStatus}
                         removeTodolist={removeTodolist}
                         onChangeTaskTitle={onChangeTitle}
-                        ChangeTodolistTitle={ChangeTodolistTitle}
+                        changeTodolistTitle={ChangeTodolistTitle}
                     />
                 )
             })}

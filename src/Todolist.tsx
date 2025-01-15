@@ -3,6 +3,8 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {ButtonComponent} from "./ButtonComponent";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, IconButton} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TodolistPropsType = {
 	title: string
@@ -15,8 +17,9 @@ type TodolistPropsType = {
 	id: string
 	removeTodolist: (todolistId: string) => void
 	onChangeTaskTitle: (taskId:string, newTitle: string, todolistId: string)=> void
-	ChangeTodolistTitle: (todolistId: string, newTitle: string)=>void
+	changeTodolistTitle: (todolistId: string, newTitle: string)=>void
 }
+
 
 export const Todolist = (props: TodolistPropsType) => {
 
@@ -32,15 +35,18 @@ export const Todolist = (props: TodolistPropsType) => {
 		props.addTask(title, props.id)
 	}
 
-	const ChangeTodolistTitle = (newTitle: string) => {
-		props.ChangeTodolistTitle(props.id, newTitle)
+	const changeTodolistTitle = (newTitle: string) => {
+		props.changeTodolistTitle(props.id, newTitle)
 	}
 
 	return (
 		<div>
 			<h3>
-				<EditableSpan title={props.title} onChange={ChangeTodolistTitle}/>
-				<ButtonComponent onClick={removeTodolistHandler} title={'x'}/>
+				<EditableSpan title={props.title} onChange={changeTodolistTitle}/>
+				{/*<Button onClick={removeTodolistHandler}><DeleteIcon/></Button>*/}
+				<IconButton  onClick={removeTodolistHandler} aria-label="delete">
+					<DeleteIcon />
+				</IconButton>
 			</h3>
 
 			<AddItemForm
