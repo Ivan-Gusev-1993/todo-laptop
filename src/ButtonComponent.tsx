@@ -9,7 +9,7 @@ type ButtonPropsType = {
 }
 
 export const ButtonComponent = (props: ButtonPropsType) => {
-
+	console.log(props.title)
 	return (
 		<Button variant={props.variant} className={props.className} onClick={props.onClick}>
 			{props.title}
