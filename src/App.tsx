@@ -3,7 +3,7 @@ import {Todolist} from "./Todolist";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 
 export type TaskType = {
@@ -88,7 +88,7 @@ function App() {
 
     return (
         <div className="App">
-            <AppBar position="static">
+            <AppBar sx={{mb: '30px'}} position="static">
                 <Toolbar>
                     <Container maxWidth={'lg'}>
                         <IconButton color="inherit">
@@ -99,8 +99,8 @@ function App() {
                     </Container>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth={'lg'}>
-                <Grid container>
+            <Container   maxWidth={'lg'}>
+                <Grid sx={{mb: '30px'}} container>
                     <AddItemForm addItem={addTodolist} />
                 </Grid>
 
@@ -117,7 +117,8 @@ function App() {
                         }
 
                         return (
-                            <Grid key={tl.id}>
+                            <Grid  key={tl.id} margin={'25px'}>
+                                <Paper   sx={{ p: '0 20px 20px 20px' }}>
                                 <Todolist
                                     id={tl.id}
                                     key={tl.id}
@@ -131,6 +132,7 @@ function App() {
                                     removeTodolist={removeTodolist}
                                     onChangeTaskTitle={onChangeTitle}
                                     changeTodolistTitle={ChangeTodolistTitle}/>
+                                </Paper>
                             </Grid>
                         )
                     })}

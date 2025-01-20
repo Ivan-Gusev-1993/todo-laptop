@@ -1,13 +1,9 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {ButtonComponent} from "./ButtonComponent";
-import {Button, Fab, TextField} from "@mui/material";
+import {Button, IconButton, TextField} from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
 type AddItemFormPropsType = {
     addItem:(title: string) => void
-}
-
-function AddIcon() {
-    return null;
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -47,7 +43,9 @@ export function AddItemForm(props: AddItemFormPropsType) {
                        onKeyDown={addTaskOnKeyUpHandler}
             />
 
-            <Button variant="contained" onClick={addTaskHandler}>+</Button>
+            <IconButton onClick={addTaskHandler} color={'primary'}>
+                <AddBoxIcon />
+            </IconButton>
 
         </div>
     )

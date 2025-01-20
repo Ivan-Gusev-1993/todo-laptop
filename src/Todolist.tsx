@@ -1,9 +1,8 @@
 import {FilterValuesType, TaskType} from "./App";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {ButtonComponent} from "./ButtonComponent";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton, List, ListItem} from "@mui/material";
+import {Box, Button, Checkbox, IconButton, List, ListItem} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type TodolistPropsType = {
@@ -55,7 +54,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
 			{
 				props.tasks.length === 0
-					? <p>Тасок нет</p>
+					? <p>There are no tasks</p>
 					: <List>
 						{props.tasks.map((task) => {
 
@@ -72,17 +71,20 @@ export const Todolist = (props: TodolistPropsType) => {
 								props.onChangeTaskTitle(task.id, newValue, props.id)
 							}
 
-							return <ListItem  key={task.id} className={task.isDone ? 'is-done' : ''}>
-								<Checkbox checked={task.isDone} onChange={onChangeTaskStatusHandler} />
-								<EditableSpan title={task.title} onChange={onChangeTaskTitleValueHandler}/>
-								<IconButton  onClick={removeTaskHandler} aria-label="delete">
-									<DeleteIcon />
+							return <ListItem key={task.id}
+											 sx={{p: 0, justifyContent: 'space-between', opacity: task.isDone ? 0.5 : 1}}>
+								<div>
+									<Checkbox checked={task.isDone} onChange={onChangeTaskStatusHandler}/>
+									<EditableSpan title={task.title} onChange={onChangeTaskTitleValueHandler}/>
+								</div>
+								<IconButton onClick={removeTaskHandler} aria-label="delete">
+									<DeleteIcon/>
 								</IconButton>
-							</ListItem >
+							</ListItem>
 						})}
 					</List>
 			}
-			<div>
+			<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Button variant={props.filter === 'all' ? 'outlined' : 'text'}
 						color={'inherit'}
 						onClick={() => changeFilterTasksHandler('all', props.id)}>
@@ -98,7 +100,7 @@ export const Todolist = (props: TodolistPropsType) => {
 						onClick={() => changeFilterTasksHandler('completed', props.id)}>
 					Completed
 				</Button>
-			</div>
+			</Box>
 		</div>
 	)
 }
