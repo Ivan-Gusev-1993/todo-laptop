@@ -1,9 +1,10 @@
 import {FilterValuesType, TaskType} from "./App";
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Box, Button, Checkbox, IconButton, List, ListItem} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import {containerSx, getListItemSx} from './TodolistItem.styles'
 
 type TodolistPropsType = {
 	title: string
@@ -20,7 +21,7 @@ type TodolistPropsType = {
 }
 
 
-export const Todolist = (props: TodolistPropsType) => {
+export const TodolistItem = (props: TodolistPropsType) => {
 
 	const changeFilterTasksHandler = (filterValue: FilterValuesType, id: string) => {
 		props.changeFilter(filterValue, id)
@@ -71,8 +72,7 @@ export const Todolist = (props: TodolistPropsType) => {
 								props.onChangeTaskTitle(task.id, newValue, props.id)
 							}
 
-							return <ListItem key={task.id}
-											 sx={{p: 0, justifyContent: 'space-between', opacity: task.isDone ? 0.5 : 1}}>
+							return <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
 								<div>
 									<Checkbox checked={task.isDone} onChange={onChangeTaskStatusHandler}/>
 									<EditableSpan title={task.title} onChange={onChangeTaskTitleValueHandler}/>
@@ -84,7 +84,7 @@ export const Todolist = (props: TodolistPropsType) => {
 						})}
 					</List>
 			}
-			<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+			<Box sx={containerSx}>
 				<Button variant={props.filter === 'all' ? 'outlined' : 'text'}
 						color={'inherit'}
 						onClick={() => changeFilterTasksHandler('all', props.id)}>

@@ -1,10 +1,15 @@
 import './App.css';
-import {Todolist} from "./Todolist";
+import {TodolistItem} from "./TodolistItem";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBar, Container, Grid, IconButton, Paper, Toolbar} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+import {containerSx} from "./TodolistItem.styles";
+import {NavButton} from "./NavButton";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
 
 export type TaskType = {
     id: string
@@ -23,6 +28,8 @@ export type TodolistType = {
 type TaskStateType = {
     [key: string] :Array<TaskType>
 }
+
+type ThemeMode = 'dark' | 'light'
 
 
 function App() {
@@ -86,22 +93,42 @@ function App() {
         setTodolists(todolists.map(td => td.id === id ? {...td, title: newTitle} : td ))
     }
 
+    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+
+     const theme = createTheme({
+        palette: {
+            mode: themeMode,
+            primary: {
+                main: '#087EA4',
+            },
+        },
+    })
+
+    const changeMode = () => {
+        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+    }
+
     return (
-        <div className="App">
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <AppBar sx={{mb: '30px'}} position="static">
                 <Toolbar>
-                    <Container maxWidth={'lg'}>
+                    <Container maxWidth={'lg'} sx={containerSx}>
                         <IconButton color="inherit">
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
-                        <Button color="inherit">Sign in</Button>
-
+                        <div>
+                            <NavButton>Sign in</NavButton>
+                            <NavButton>Sign up</NavButton>
+                            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+                            <Switch color={'default'} onChange={changeMode}/>
+                        </div>
                     </Container>
                 </Toolbar>
             </AppBar>
-            <Container   maxWidth={'lg'}>
+            <Container maxWidth={'lg'}>
                 <Grid sx={{mb: '30px'}} container>
-                    <AddItemForm addItem={addTodolist} />
+                    <AddItemForm addItem={addTodolist}/>
                 </Grid>
 
                 <Grid container spacing={3} gap={3}>
@@ -117,28 +144,28 @@ function App() {
                         }
 
                         return (
-                            <Grid  key={tl.id} margin={'25px'}>
-                                <Paper   sx={{ p: '0 20px 20px 20px' }}>
-                                <Todolist
-                                    id={tl.id}
-                                    key={tl.id}
-                                    title={tl.title}
-                                    tasks={tasksForTodolist}
-                                    removeTask={removeTask}
-                                    filter={tl.filter}
-                                    changeFilter={changeFilter}
-                                    addTask={addTask}
-                                    ChangeTaskStatus={ChangeTaskStatus}
-                                    removeTodolist={removeTodolist}
-                                    onChangeTaskTitle={onChangeTitle}
-                                    changeTodolistTitle={ChangeTodolistTitle}/>
+                            <Grid key={tl.id} margin={'25px'} >
+                                <Paper sx={{p: '0 20px 20px 20px'}}>
+                                    <TodolistItem
+                                        id={tl.id}
+                                        key={tl.id}
+                                        title={tl.title}
+                                        tasks={tasksForTodolist}
+                                        removeTask={removeTask}
+                                        filter={tl.filter}
+                                        changeFilter={changeFilter}
+                                        addTask={addTask}
+                                        ChangeTaskStatus={ChangeTaskStatus}
+                                        removeTodolist={removeTodolist}
+                                        onChangeTaskTitle={onChangeTitle}
+                                        changeTodolistTitle={ChangeTodolistTitle}/>
                                 </Paper>
                             </Grid>
                         )
                     })}
                 </Grid>
             </Container>
-        </div>
+        </ThemeProvider>
     )
 }
 
