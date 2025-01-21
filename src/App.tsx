@@ -93,7 +93,7 @@ function App() {
         setTodolists(todolists.map(td => td.id === id ? {...td, title: newTitle} : td ))
     }
 
-    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+    const [themeMode, setThemeMode] = useState<ThemeMode>('dark')
 
      const theme = createTheme({
         palette: {
