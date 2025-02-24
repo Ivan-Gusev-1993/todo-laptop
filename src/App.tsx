@@ -67,6 +67,7 @@ function App() {
     ]);
 
     let [tasksObj, setTasksObj] = useState<TaskStateType>({
+
         [todolistId01]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
