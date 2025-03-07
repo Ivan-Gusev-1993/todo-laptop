@@ -75,7 +75,8 @@ function App() {
 
         [todolistId02]: [
             {id: v1(), title: 'Laptop', isDone: false},
-            {id: v1(), title: 'Xbox', isDone: true}]
+            {id: v1(), title: 'Xbox', isDone: true},
+            {id: v1(), title: 'piano', isDone: true}]
 
     });
 
