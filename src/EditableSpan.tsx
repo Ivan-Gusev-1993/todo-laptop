@@ -22,7 +22,6 @@ export function EditableSpan(props: EditableSpanPropsType){
     const onChangeTitleHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setTitleValue(e.currentTarget.value)
     }
-
     return (
         editMode
             ? <TextField variant={'outlined'}
