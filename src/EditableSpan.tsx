@@ -23,6 +23,7 @@ export function EditableSpan(props: EditableSpanPropsType){
         setTitleValue(e.currentTarget.value)
     }
     return (
+
         editMode
             ? <TextField variant={'outlined'}
                          size={'small'}
