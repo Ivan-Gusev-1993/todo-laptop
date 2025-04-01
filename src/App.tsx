@@ -111,7 +111,6 @@ function App() {
     }
 
     return (
-
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <AppBar sx={{mb: '30px'}} position="static">
