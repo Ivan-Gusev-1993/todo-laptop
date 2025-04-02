@@ -31,7 +31,6 @@ export type TaskStateType = {
 
 type ThemeMode = 'dark' | 'light'
 
-
 function App() {
 
     const removeTodolist = (todolistId: string) => {
@@ -49,6 +48,7 @@ function App() {
         const task = {id: v1(), title: title, isDone: false}
         setTasksObj({...tasksObj, [todolistId]: [task, ...tasksObj[todolistId]]})
     }
+    console.log('all ok!')
 
     const ChangeTaskStatus = (taskId: string, taskStatus: boolean, todolistId: string) => {
         setTasksObj({...tasksObj, [todolistId]: tasksObj[todolistId].map(t => t.id === taskId ? {...t, isDone: taskStatus} : t )})
