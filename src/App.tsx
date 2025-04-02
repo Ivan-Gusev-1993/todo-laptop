@@ -109,7 +109,6 @@ function App() {
     const changeMode = () => {
         setThemeMode(themeMode == 'light' ? 'dark' : 'light')
     }
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
