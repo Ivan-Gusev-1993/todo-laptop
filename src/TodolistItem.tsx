@@ -1,4 +1,4 @@
-import {FilterValuesType, TaskStateType, TaskType} from "./AppWithRedux";
+import {FilterValuesType, TaskType} from "./AppWithRedux";
 import React, {ChangeEvent} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -73,7 +73,7 @@ export const TodolistItem = (props: TodolistPropsType) => {
 							}
 							const onChangeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
 								let taskStatus = event.currentTarget.checked
-								dispatch(changeTaskStatusAC(task.id, task.isDone, props.id))
+								dispatch(changeTaskStatusAC(task.id, taskStatus, props.id))
 							}
 
 							const onChangeTaskTitleValueHandler = (newValue: string) => {
