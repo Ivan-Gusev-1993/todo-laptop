@@ -1,37 +1,40 @@
-import React, {ChangeEvent, useState} from "react";
-import {TextField} from "@mui/material";
+import TextField from '@mui/material/TextField'
+import {type ChangeEvent, useState} from 'react'
 
-type EditableSpanPropsType = {
-    title: string
-    onChange:(title: string)=>void
+type Props = {
+  value: string
+  onChange: (title: string) => void
 }
 
-export function EditableSpan(props: EditableSpanPropsType){
-    let [editMode, setEditMode]=useState(false)
-    let [titleValue, setTitleValue]= useState('')
+export const EditableSpan = ({ value, onChange }: Props) => {
+  const [title, setTitle] = useState(value)
+  const [isEditMode, setIsEditMode] = useState(false)
 
-    const activateEditMode = () => {
-        setEditMode(true);
-        setTitleValue(props.title)
-    }
-    const activateViewMode= () => {
-        setEditMode(false);
-        props.onChange(titleValue);
-    }
+  const turnOnEditMode = () => {
+    setIsEditMode(true)
+  }
 
-    const onChangeTitleHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        setTitleValue(e.currentTarget.value)
-    }
-    return (
+  const turnOffEditMode = () => {
+    setIsEditMode(false)
+    onChange(title)
+  }
 
-        editMode
-            ? <TextField variant={'outlined'}
-                         size={'small'}
-                         value={titleValue}
-                         onChange={onChangeTitleHandler}
-                         onBlur={activateViewMode}
-                         autoFocus/>
+  const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value)
+  }
 
-        : <span onDoubleClick={activateEditMode}>{props.title}</span>
-    )
+  return (
+      <>
+        {isEditMode ? (
+            <TextField variant={'outlined'}
+                       value={title}
+                       size={'small'}
+                       onChange={changeTitle}
+                       onBlur={turnOffEditMode}
+                       autoFocus/>
+        ) : (
+            <span onDoubleClick={turnOnEditMode}>{value}</span>
+        )}
+      </>
+  )
 }
