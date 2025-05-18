@@ -5,7 +5,7 @@ import {selectThemeMode} from "@/features/todolists/model/app-selectors.ts";
 import {getTheme} from "@/common/theme/theme.ts";
 import {Header} from "@/common/components/Header/Header.tsx";
 import {Main} from "@/app/Main.tsx";
-import styles from "@/styles/App.module.scss";
+import styles from '@/app/App.module.css'
 
 export const App = () => {
 
