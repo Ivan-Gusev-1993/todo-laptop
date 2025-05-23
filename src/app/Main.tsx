@@ -12,7 +12,7 @@ export const Main = () => {
     const createTodolist = (title: string) => {
         dispatch(createTodolistAC(title))
     }
-
+    console.log('render')
     return (
         <Container maxWidth={'lg'}>
             <Grid container sx={{mb: '30px'}}>
