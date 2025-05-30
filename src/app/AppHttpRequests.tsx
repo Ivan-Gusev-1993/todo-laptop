@@ -1,39 +1,36 @@
 import {type ChangeEvent, type CSSProperties, useEffect, useState} from 'react'
 import Checkbox from '@mui/material/Checkbox'
-import {CreateItemForm} from '@/common/components/CreateItemForm/CreateItemForm'
-import {EditableSpan} from '@/common/components/EditableSpan/EditableSpan'
-import axios from "axios";
+import {CreateItemForm, EditableSpan} from "@/common/components";
+import type {Todolist} from "@/features/todolists/api/todolistsApi.types.ts";
+import {todolistsApi} from "@/features/todolists/api/todolistsApi.ts";
 
-const token = 'b5120dd7-39f8-44f2-9353-5b1086ba5c96'
-const apiKey = 'f87d0b15-33ee-4521-89af-8f71ab35cde0'
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<any>({})
 
   useEffect(() => {
-   axios.get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', {
-     headers: {
-       Authorization: `Bearer ${token}`,
-     }
-   }).then((res) => setTodolists(res.data))
+    todolistsApi.getTodolists().then((res) => setTodolists(res.data))
   }, [])
 
-  const createTodolist = (title: string) => {
-    axios.post<CreateTodolistResponse>('https://social-network.samuraijs.com/api/1.1/todo-lists', {title}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'API-KEY': apiKey,
-      }
-    }).then((res) => {
+  const createTodolist = (title:string) => {
+    todolistsApi.postTodolists(title).then((res) => {
       const newTodolist = res.data.data.item
     setTodolists([newTodolist, ...todolists])
     })
   }
 
-  const deleteTodolist = (id: string) => {}
+  const deleteTodolist = (id: string) => {
+    todolistsApi.deleteTodolist(id).then(() => {
+      setTodolists(todolists.filter(item => item.id !== id))
+    })
+  }
 
-  const changeTodolistTitle = (id: string, title: string) => {}
+  const changeTodolistTitle = (id: string, title: string) => {
+    todolistsApi.updateTodolistsTitle({id, title}).then(() => {
+      setTodolists(todolists.map(item => item.id === id ? {...item, title} : item))
+    })
+  }
 
   const createTask = (todolistId: string, title: string) => {}
 
@@ -79,21 +76,4 @@ const container: CSSProperties = {
   flexDirection: 'column',
 }
 
-export type Todolist = {
-  id: string
-  title: string
-  addedDate: string
-  order: number
-}
 
-export type FieldError = {
-  error: string
-  field: string
-}
-
-type CreateTodolistResponse = {
-  data: { item: Todolist }
-  resultCode: number
-  messages: string[]
-  fieldsErrors: FieldError[]
-}
