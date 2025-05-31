@@ -14,5 +14,5 @@ export const todolistsApi = {
     },
     deleteTodolist(id: string) {
         return instance.delete<BaseResponse>(`/todo-lists/${id}`)
-    }
+    },
 }

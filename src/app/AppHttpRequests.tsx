@@ -7,7 +7,7 @@ import {todolistsApi} from "@/features/todolists/api/todolistsApi.ts";
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
-  const [tasks, setTasks] = useState<any>({})
+  // const [tasks, setTasks] = useState<any>({})
 
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => setTodolists(res.data))
