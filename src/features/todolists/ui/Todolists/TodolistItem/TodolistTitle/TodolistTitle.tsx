@@ -1,5 +1,5 @@
-import {useAppDispatch} from '@/common/hooks/useAppDispatch'
 import {EditableSpan} from '@/common/components/EditableSpan/EditableSpan'
+import {useAppDispatch} from '@/common/hooks'
 import {
   changeTodolistTitleAC,
   deleteTodolistAC,

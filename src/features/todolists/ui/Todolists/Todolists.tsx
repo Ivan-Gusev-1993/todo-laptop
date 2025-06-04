@@ -1,4 +1,4 @@
-import {useAppSelector} from '@/common/hooks/useAppSelector'
+import {useAppSelector} from '@/common/hooks'
 import {selectTodolists} from '@/features/todolists/model/todolists-selectors'
 import {TodolistItem} from './TodolistItem/TodolistItem'
 import Grid from '@mui/material/Grid2'

@@ -1,4 +1,4 @@
-import {useAppSelector} from '@/common/hooks/useAppSelector'
+import {useAppSelector} from '@/common/hooks'
 import {selectTasks} from '@/features/todolists/model/tasks-selectors'
 import type {Todolist} from '@/features/todolists/model/todolists-reducer'
 import {TaskItem} from './TaskItem/TaskItem'
