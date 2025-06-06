@@ -7,6 +7,7 @@ import Checkbox from "@mui/material/Checkbox"
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<any>({})
+  console.log(setTasks)
 
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => setTodolists(res.data))
