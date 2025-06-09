@@ -9,7 +9,6 @@ import { type DomainTask, TaskStatus, type UpdateTaskModel } from "@/features/to
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<Record<string, DomainTask[]>>({})
-  console.log(setTasks)
 
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => {
