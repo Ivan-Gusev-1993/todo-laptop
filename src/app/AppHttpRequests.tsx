@@ -10,7 +10,6 @@ export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
   const [tasks, setTasks] = useState<Record<string, DomainTask[]>>({})
 
-  console.log(tasks)
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => {
       const todolists = res.data
