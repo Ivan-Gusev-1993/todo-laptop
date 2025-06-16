@@ -5,7 +5,7 @@ import {
   changeTaskTitleAC,
   deleteTaskAC,
   type Task,
-} from "@/features/todolists/model/tasks-reducer"
+} from "@/features/todolists/model/tasks-slice.ts"
 import DeleteIcon from "@mui/icons-material/Delete"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
