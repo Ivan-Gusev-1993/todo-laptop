@@ -5,7 +5,7 @@ import { useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import { selectThemeMode } from "./app-selectors"
+import { selectThemeMode } from "@/app/app-slice.ts"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
