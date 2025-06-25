@@ -12,12 +12,6 @@ export const todolistsSlice = createSlice({
         state.splice(index, 1)
       }
     }),
-    changeTodolistTitleAC: create.reducer<{ id: string; title: string }>((state, action) => {
-      const index = state.findIndex((todolist) => todolist.id === action.payload.id)
-      if (index !== -1) {
-        state[index].title = action.payload.title
-      }
-    }),
     changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>((state, action) => {
       const todolist = state.find((todolist) => todolist.id === action.payload.id)
       if (todolist) {
@@ -41,21 +35,38 @@ export const todolistsSlice = createSlice({
       .addCase(fetchTodolistTC.rejected, (_state, action: any) => {
         alert(action.payload.message)
       })
+      .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+        const index = state.findIndex((todolist) => todolist.id === action.payload.id)
+        if (index !== -1) {
+          state[index].title = action.payload.title
+        }
+      })
   },
 })
 
-export const fetchTodolistTC = createAsyncThunk(`${todolistsSlice.name}/fetchTodolistTC`, async (_arg, thunkApi) => {
+export const fetchTodolistTC = createAsyncThunk(`${todolistsSlice.name}/fetchTodolistTC`, async (_arg, thunkAPI) => {
   try {
     const res = await todolistsApi.getTodolists()
     return { todolists: res.data }
   } catch (error) {
-    return thunkApi.rejectWithValue(error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
+export const changeTodolistTitleTC = createAsyncThunk(
+  `${todolistsSlice.name}/changeTodolistTitleTC`,
+  async (arg: { id: string; title: string }, thunkAPI) => {
+    try {
+      await todolistsApi.changeTodolistTitle(arg)
+      return arg
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  },
+)
+
 export const todolistsReducer = todolistsSlice.reducer
-export const { deleteTodolistAC, changeTodolistTitleAC, changeTodolistFilterAC, createTodolistAC } =
-  todolistsSlice.actions
+export const { deleteTodolistAC, changeTodolistFilterAC, createTodolistAC } = todolistsSlice.actions
 
 export type DomainTodolist = Todolist & {
   filter: FilterValues
