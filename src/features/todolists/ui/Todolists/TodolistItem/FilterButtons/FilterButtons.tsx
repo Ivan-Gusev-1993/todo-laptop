@@ -4,7 +4,7 @@ import {
   changeTodolistFilterAC,
   type DomainTodolist,
   type FilterValues,
-} from "@/features/todolists/model/todolists-slice.ts"
+} from "@/features/todolists/model/todolists-slice"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 
