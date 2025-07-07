@@ -1,10 +1,11 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit"
+import { nanoid } from "@reduxjs/toolkit"
 import { createTodolistTC, deleteTodolistTC } from "./todolists-slice"
 import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 import type { DomainTask } from "@/features/todolists/api/tasksApi.types.ts"
 import { TaskPriority, TaskStatus } from "@/common/enums"
+import { createAppSlice } from "@/common/utils"
 
-export const tasksSlice = createSlice({
+export const tasksSlice = createAppSlice({
   name: "tasks",
   initialState: {} as TasksState,
   selectors: {
