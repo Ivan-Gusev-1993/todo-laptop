@@ -7,7 +7,6 @@ import { TodolistItem } from "./TodolistItem/TodolistItem"
 
 export const Todolists = () => {
   const todolists = useAppSelector(selectTodolists)
-  console.log(todolists)
 
   const dispatch = useAppDispatch()
 
