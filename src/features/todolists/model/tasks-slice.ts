@@ -2,6 +2,7 @@ import { createTodolistTC, deleteTodolistTC } from "./todolists-slice"
 import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 import type { DomainTask, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
 import { createAppSlice } from "@/common/utils"
+import { changeStatusAC } from "@/app/app-slice.ts"
 
 export const tasksSlice = createAppSlice({
   name: "tasks",
@@ -28,12 +29,14 @@ export const tasksSlice = createAppSlice({
     }),
     //thunks
     fetchTasks: create.asyncThunk(
-      async (todolistId: string, thunkAPI) => {
+      async (todolistId: string, { dispatch, rejectWithValue }) => {
         try {
+          dispatch(changeStatusAC({ status: "loading" }))
           const res = await tasksApi.getTasks(todolistId)
+          dispatch(changeStatusAC({ status: "idle" }))
           return { tasks: res.data.items, todolistId }
         } catch (e) {
-          return thunkAPI.rejectWithValue(null)
+          return rejectWithValue(null)
         }
       },
       {
