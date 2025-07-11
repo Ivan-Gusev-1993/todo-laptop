@@ -20,14 +20,6 @@ export const tasksSlice = createAppSlice({
       })
   },
   reducers: (create) => ({
-    //actions
-    // changeTaskTitleAC: create.reducer<{ todolistId: string; taskId: string; title: string }>((state, action) => {
-    //   // const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId)
-    //   // if (task) {
-    //   //   task.title = action.payload.title
-    //   // }
-    // }),
-    //thunks
     fetchTasks: create.asyncThunk(
       async (todolistId: string, { dispatch, rejectWithValue }) => {
         try {
