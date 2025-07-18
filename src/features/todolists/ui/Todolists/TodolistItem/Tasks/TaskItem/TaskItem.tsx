@@ -32,6 +32,7 @@ export const TaskItem = ({ task, todolistId }: Props) => {
     const newTask = { ...task, title }
     dispatch(changeTaskTitle(newTask))
   }
+  console.log("task", task)
 
   const isDone = task.status === TaskStatus.Completed
   return (
