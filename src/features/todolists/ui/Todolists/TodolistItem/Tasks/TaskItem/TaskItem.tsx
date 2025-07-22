@@ -34,6 +34,7 @@ export const TaskItem = ({ task, todolistId }: Props) => {
   }
 
   const isDone = task.status === TaskStatus.Completed
+  console.log("task", task)
   return (
     <ListItem sx={getListItemSx(isDone)}>
       <div>
