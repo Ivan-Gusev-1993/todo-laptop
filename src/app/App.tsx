@@ -6,6 +6,7 @@ import { useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
+import { ErrorSnackbar } from "@/common/components"
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -18,6 +19,7 @@ export const App = () => {
         <CssBaseline />
         <Header />
         <Main />
+        <ErrorSnackbar />
       </div>
     </ThemeProvider>
   )
