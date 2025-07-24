@@ -3,6 +3,9 @@ import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 import type { DomainTask, UpdateTaskModel } from "@/features/todolists/api/tasksApi.types.ts"
 import { createAppSlice } from "@/common/utils"
 import { changeStatusAC } from "@/app/app-slice.ts"
+import { ResultCode } from "@/common/enums"
+import { handleServerAppError } from "@/common/utils/handleServerAppError.ts"
+import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError.ts"
 
 export const tasksSlice = createAppSlice({
   name: "tasks",
@@ -38,12 +41,19 @@ export const tasksSlice = createAppSlice({
       },
     ),
     createTask: create.asyncThunk(
-      async (arg: { todolistId: string; title: string }, thunkAPI) => {
+      async (arg: { todolistId: string; title: string }, { dispatch, rejectWithValue }) => {
         try {
           const res = await tasksApi.createTask(arg)
-          return { task: res.data.data.item }
-        } catch (e) {
-          return thunkAPI.rejectWithValue(null)
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(changeStatusAC({ status: "succeeded" }))
+            return { task: res.data.data.item }
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
+        } catch (error) {
+          handleServerNetworkError(error, dispatch)
+          return rejectWithValue(null)
         }
       },
       {
