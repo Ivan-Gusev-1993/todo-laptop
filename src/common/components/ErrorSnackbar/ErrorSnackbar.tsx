@@ -12,7 +12,7 @@ export const ErrorSnackbar = () => {
     if (reason === "clickaway") {
       return
     }
-
+    console.log("clickaway")
     dispatch(changeAppErrorAC({ error: null }))
   }
 
