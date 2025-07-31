@@ -46,7 +46,7 @@ export const CreateItemForm = ({ onCreateItem, disabled }: Props) => {
         onKeyDown={createItemOnEnterHandler}
         disabled={disabled}
       />
-      <IconButton disabled={disabled} onClick={createItemHandler} color={"primary"}>
+      <IconButton onClick={createItemHandler} color={"primary"} disabled={disabled}>
         <AddBoxIcon />
       </IconButton>
     </div>

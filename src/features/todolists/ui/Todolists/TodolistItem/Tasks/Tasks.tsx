@@ -1,10 +1,10 @@
+import { TaskStatus } from "@/common/enums"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
-import { fetchTasks, selectTasks } from "@/features/todolists/model/tasks-slice"
+import { fetchTasksTC, selectTasks } from "@/features/todolists/model/tasks-slice"
 import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
+import { useEffect } from "react"
 import { TaskItem } from "./TaskItem/TaskItem"
 import List from "@mui/material/List"
-import { useEffect } from "react"
-import { TaskStatus } from "@/common/enums"
 
 type Props = {
   todolist: DomainTodolist
@@ -17,10 +17,6 @@ export const Tasks = ({ todolist }: Props) => {
 
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchTasks(id))
-  }, [])
-
   const todolistTasks = tasks[id]
   let filteredTasks = todolistTasks
   if (filter === "active") {
@@ -30,12 +26,16 @@ export const Tasks = ({ todolist }: Props) => {
     filteredTasks = todolistTasks.filter((task) => task.status === TaskStatus.Completed)
   }
 
+  useEffect(() => {
+    dispatch(fetchTasksTC(id))
+  }, [])
+
   return (
     <>
       {filteredTasks?.length === 0 ? (
         <p>Тасок нет</p>
       ) : (
-        <List>{filteredTasks?.map((task) => <TaskItem key={task.id} task={task} todolistId={id} />)}</List>
+        <List>{filteredTasks?.map((task) => <TaskItem key={task.id} task={task} todolist={todolist} />)}</List>
       )}
     </>
   )
