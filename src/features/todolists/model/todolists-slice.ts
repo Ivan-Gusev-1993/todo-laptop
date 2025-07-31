@@ -25,9 +25,9 @@ export const todolistsSlice = createAppSlice({
         }
       },
       {
-        fulfilled: (state, action) => {
-          action.payload?.todolists.forEach((tl) => {
-            state.push({ ...tl, filter: "all", entityStatus: "idle" })
+        fulfilled: (_state, action) => {
+          return action.payload?.todolists.map((tl) => {
+            return { ...tl, filter: "all", entityStatus: "idle" }
           })
         },
       },
