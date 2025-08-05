@@ -13,9 +13,7 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import s from "./Login.module.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema } from "@/features/auth/lib/schemas"
-import { z } from "zod"
-
-type LoginInputs = z.infer<typeof loginSchema>
+import type { LoginInputs } from "@/features/auth/lib/schemas/loginSchema.ts"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
