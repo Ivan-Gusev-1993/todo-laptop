@@ -32,7 +32,7 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data)
+    // console.log(data)
     reset()
   }
   return (
