@@ -27,9 +27,9 @@ export const tasksSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await tasksApi.getTasks(todolistId)
-          domainTaskSchema.array().parse(res.data.items) // zod
+          const tasks = domainTaskSchema.array().parse(res.data.items)
           dispatch(setAppStatusAC({ status: "succeeded" }))
-          return { todolistId, tasks: res.data.items }
+          return { todolistId, tasks }
         } catch (error) {
           handleServerNetworkError(dispatch, error)
           return rejectWithValue(null)

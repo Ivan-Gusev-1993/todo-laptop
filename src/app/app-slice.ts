@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 export const appSlice = createSlice({
   name: "app",
   initialState: {
-    themeMode: "dark" as ThemeMode,
+    themeMode: "light" as ThemeMode,
     status: "idle" as RequestStatus,
     error: null as string | null,
   },
