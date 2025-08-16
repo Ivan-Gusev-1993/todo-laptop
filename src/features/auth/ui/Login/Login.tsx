@@ -20,7 +20,6 @@ import { Path } from "@/common/routing"
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
-
   const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
   //const navigate = useNavigate()

@@ -12,7 +12,7 @@ export const authSlice = createAppSlice({
   },
   selectors: {
     selectIsLoggedIn: (state) => {
-      state.isLoggedIn
+      return state.isLoggedIn
     },
   },
 
