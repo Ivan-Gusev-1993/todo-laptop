@@ -22,13 +22,6 @@ export const Login = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const theme = getTheme(themeMode)
   const dispatch = useAppDispatch()
-  //const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate(Path.Main)
-  //   }
-  // }, [isLoggedIn, navigate])
 
   const {
     register,
