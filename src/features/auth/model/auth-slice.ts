@@ -41,9 +41,56 @@ export const authSlice = createAppSlice({
         },
       },
     ),
+    logoutTC: create.asyncThunk(
+      async (_arg, { dispatch, rejectWithValue }) => {
+        try {
+          dispatch(setAppStatusAC({ status: "loading" }))
+          const res = await authApi.logout()
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC({ status: "succeeded" }))
+            localStorage.removeItem(AUTH_TOKEN)
+            return { isLoggedIn: false }
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
+        } catch (error) {
+          handleServerNetworkError(dispatch, error)
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state.isLoggedIn = action.payload.isLoggedIn
+        },
+      },
+    ),
+    meTC: create.asyncThunk(
+      async (_arg, { dispatch, rejectWithValue }) => {
+        try {
+          dispatch(setAppStatusAC({ status: "loading" }))
+          const res = await authApi.me()
+          if (res.data.resultCode === ResultCode.Success) {
+            dispatch(setAppStatusAC({ status: "succeeded" }))
+            return { isLoggedIn: true }
+          } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue(null)
+          }
+        } catch (error) {
+          handleServerNetworkError(dispatch, error)
+          return rejectWithValue(null)
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state.isLoggedIn = action.payload.isLoggedIn
+        },
+      },
+    ),
   }),
 })
 
 export const { selectIsLoggedIn } = authSlice.selectors
-export const { loginTC } = authSlice.actions
+export const { loginTC, logoutTC, meTC } = authSlice.actions
 export const authReducer = authSlice.reducer
