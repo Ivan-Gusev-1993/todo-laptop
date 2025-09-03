@@ -3,6 +3,8 @@ import { PageNotFound } from "@/common/components"
 import { Login } from "@/features/auth/ui/Login/Login"
 import { Route, Routes } from "react-router"
 import { ProtectedRoute } from "@/common/components/ProtectedRoute/ProtectedRoute.tsx"
+import { useAppSelector } from "@/common/hooks"
+import { selectIsLoggedIn } from "@/features/auth/model/auth-slice.ts"
 
 const Faq = () => {
   return (
@@ -19,25 +21,17 @@ export const Path = {
   NotFound: "*",
 } as const
 
-export const Routing = () => (
-  <Routes>
-    <Route
-      path={Path.Main}
-      element={
-        <ProtectedRoute>
-          <Main />
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path={Path.Faq}
-      element={
-        <ProtectedRoute>
-          <Faq />
-        </ProtectedRoute>
-      }
-    />
-    <Route path={Path.Login} element={<Login />} />
-    <Route path={Path.NotFound} element={<PageNotFound />} />
-  </Routes>
-)
+export const Routing = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  return (
+    <Routes>
+      <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
+        <Route path={Path.Main} element={<Main />} />
+        <Route path={Path.Faq} element={<Faq />} />
+      </Route>
+
+      <Route path={Path.Login} element={<Login />} />
+      <Route path={Path.NotFound} element={<PageNotFound />} />
+    </Routes>
+  )
+}
