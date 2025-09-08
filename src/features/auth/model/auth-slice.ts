@@ -1,10 +1,10 @@
-import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
-import type { LoginInputs } from "@/features/auth/lib/schemas"
-import { setAppStatusAC } from "@/app/app-slice.ts"
-import { authApi } from "@/features/auth/api/authApi.ts"
-import { ResultCode } from "@/common/enums"
-import { AUTH_TOKEN } from "@/common/constants"
+import { setAppStatusAC } from "@/app/app-slice"
 import { clearDataAC } from "@/common/actions"
+import { AUTH_TOKEN } from "@/common/constants"
+import { ResultCode } from "@/common/enums"
+import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
+import { authApi } from "@/features/auth/api/authApi"
+import type { LoginInputs } from "@/features/auth/lib/schemas"
 
 export const authSlice = createAppSlice({
   name: "auth",
@@ -12,11 +12,8 @@ export const authSlice = createAppSlice({
     isLoggedIn: false,
   },
   selectors: {
-    selectIsLoggedIn: (state) => {
-      return state.isLoggedIn
-    },
+    selectIsLoggedIn: (state) => state.isLoggedIn,
   },
-
   reducers: (create) => ({
     loginTC: create.asyncThunk(
       async (data: LoginInputs, { dispatch, rejectWithValue }) => {
@@ -31,8 +28,8 @@ export const authSlice = createAppSlice({
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
-        } catch (error) {
-          handleServerNetworkError(dispatch, error)
+        } catch (error: any) {
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
@@ -43,21 +40,21 @@ export const authSlice = createAppSlice({
       },
     ),
     logoutTC: create.asyncThunk(
-      async (_arg, { dispatch, rejectWithValue }) => {
+      async (_, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await authApi.logout()
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
-            localStorage.removeItem(AUTH_TOKEN)
             dispatch(clearDataAC())
+            localStorage.removeItem(AUTH_TOKEN)
             return { isLoggedIn: false }
           } else {
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
-        } catch (error) {
-          handleServerNetworkError(dispatch, error)
+        } catch (error: any) {
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
@@ -67,8 +64,8 @@ export const authSlice = createAppSlice({
         },
       },
     ),
-    meTC: create.asyncThunk(
-      async (_arg, { dispatch, rejectWithValue }) => {
+    initializeAppTC: create.asyncThunk(
+      async (_, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await authApi.me()
@@ -79,8 +76,8 @@ export const authSlice = createAppSlice({
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
-        } catch (error) {
-          handleServerNetworkError(dispatch, error)
+        } catch (error: any) {
+          handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
       },
@@ -94,5 +91,5 @@ export const authSlice = createAppSlice({
 })
 
 export const { selectIsLoggedIn } = authSlice.selectors
-export const { loginTC, logoutTC, meTC } = authSlice.actions
+export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
 export const authReducer = authSlice.reducer
