@@ -1,8 +1,10 @@
 import { instance } from "@/common/instance"
 import type { BaseResponse } from "@/common/types"
 import type { Todolist } from "./todolistsApi.types"
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { AUTH_TOKEN } from "@/common/constants"
+
 export const todolistsApi = createApi({
   reducerPath: "todolistsApi",
   baseQuery: fetchBaseQuery({
@@ -21,7 +23,7 @@ export const todolistsApi = createApi({
 
 export const { useGetTodolistsQuery } = todolistsApi
 
-/////////////////////////////////////////////////////////////////////
+//////////////////
 export const _todolistsApi = {
   getTodolists() {
     return instance.get<Todolist[]>("/todo-lists")
