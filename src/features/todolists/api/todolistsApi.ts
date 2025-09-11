@@ -7,6 +7,7 @@ import { AUTH_TOKEN } from "@/common/constants"
 import type { DomainTodolist } from "@/features/todolists/model/todolists-slice.ts"
 
 export const todolistsApi = createApi({
+  tagTypes: ["Todolists"],
   reducerPath: "todolistsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
@@ -20,6 +21,7 @@ export const todolistsApi = createApi({
       query: () => "todo-lists",
       transformResponse: (todolists: Todolist[]): DomainTodolist[] =>
         todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" })),
+      providesTags: ["Todolists"],
     }),
     createTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
       query: (title) => ({
@@ -27,11 +29,32 @@ export const todolistsApi = createApi({
         method: "POST",
         body: { title },
       }),
+      invalidatesTags: ["Todolists"],
+    }),
+    deleteTodolist: build.mutation<BaseResponse, string>({
+      query: (id) => ({
+        url: `/todo-lists/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Todolists"],
+    }),
+    changeTodolistTitle: build.mutation<BaseResponse, { id: string; title: string }>({
+      query: ({ title, id }) => ({
+        url: `/todo-lists/${id}`,
+        method: "PUT",
+        body: { title },
+      }),
+      invalidatesTags: ["Todolists"],
     }),
   }),
 })
 
-export const { useGetTodolistsQuery, useCreateTodolistMutation } = todolistsApi
+export const {
+  useGetTodolistsQuery,
+  useCreateTodolistMutation,
+  useDeleteTodolistMutation,
+  useChangeTodolistTitleMutation,
+} = todolistsApi
 
 //////////////////
 export const _todolistsApi = {
