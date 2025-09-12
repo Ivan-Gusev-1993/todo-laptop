@@ -28,7 +28,7 @@ export const App = () => {
     if (data?.resultCode === ResultCode.Success) {
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))
     }
-  }, [])
+  }, [isLoading])
 
   if (!isInitialized) {
     return (
