@@ -10,10 +10,13 @@ import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
 import { useEffect, useState } from "react"
 import styles from "./App.module.css"
+import { useMeQuery } from "@/features/auth/api/authApi.ts"
 
 export const App = () => {
   const [isInitialized, setIsInitialized] = useState(false)
   const themeMode = useAppSelector(selectThemeMode)
+
+  const { data } = useMeQuery()
 
   const dispatch = useAppDispatch()
 

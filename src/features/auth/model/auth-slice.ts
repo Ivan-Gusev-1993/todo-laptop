@@ -3,7 +3,7 @@ import { clearDataAC } from "@/common/actions"
 import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
-import { authApi } from "@/features/auth/api/authApi"
+import { _authApi } from "@/features/auth/api/authApi"
 import type { LoginInputs } from "@/features/auth/lib/schemas"
 
 export const authSlice = createAppSlice({
@@ -19,7 +19,7 @@ export const authSlice = createAppSlice({
       async (data: LoginInputs, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
-          const res = await authApi.login(data)
+          const res = await _authApi.login(data)
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
             localStorage.setItem(AUTH_TOKEN, res.data.data.token)
@@ -43,7 +43,7 @@ export const authSlice = createAppSlice({
       async (_, { dispatch, rejectWithValue }) => {
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
-          const res = await authApi.logout()
+          const res = await _authApi.logout()
           if (res.data.resultCode === ResultCode.Success) {
             dispatch(setAppStatusAC({ status: "succeeded" }))
             dispatch(clearDataAC())
@@ -64,32 +64,13 @@ export const authSlice = createAppSlice({
         },
       },
     ),
-    initializeAppTC: create.asyncThunk(
-      async (_, { dispatch, rejectWithValue }) => {
-        try {
-          dispatch(setAppStatusAC({ status: "loading" }))
-          const res = await authApi.me()
-          if (res.data.resultCode === ResultCode.Success) {
-            dispatch(setAppStatusAC({ status: "succeeded" }))
-            return { isLoggedIn: true }
-          } else {
-            handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
-          }
-        } catch (error: any) {
-          handleServerNetworkError(error, dispatch)
-          return rejectWithValue(null)
-        }
-      },
-      {
-        fulfilled: (state, action) => {
-          state.isLoggedIn = action.payload.isLoggedIn
-        },
-      },
-    ),
+
+    setIsLoggedInAC: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn
+    }),
   }),
 })
 
 export const { selectIsLoggedIn } = authSlice.selectors
-export const { loginTC, logoutTC, initializeAppTC } = authSlice.actions
+export const { loginTC, logoutTC } = authSlice.actions
 export const authReducer = authSlice.reducer
