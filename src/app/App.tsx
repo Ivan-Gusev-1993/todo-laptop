@@ -24,7 +24,8 @@ export const App = () => {
   const theme = getTheme(themeMode)
 
   useEffect(() => {
-    if (isLoading) setIsInitialized(true)
+    if (isLoading) return
+    setIsInitialized(true)
     if (data?.resultCode === ResultCode.Success) {
       dispatch(setIsLoggedInAC({ isLoggedIn: true }))
     }
