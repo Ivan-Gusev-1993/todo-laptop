@@ -72,5 +72,5 @@ export const authSlice = createAppSlice({
 })
 
 export const { selectIsLoggedIn } = authSlice.selectors
-export const { loginTC, logoutTC } = authSlice.actions
+export const { loginTC, logoutTC, setIsLoggedInAC } = authSlice.actions
 export const authReducer = authSlice.reducer
