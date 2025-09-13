@@ -1,8 +1,7 @@
-import { selectThemeMode } from "@/app/app-slice"
+import { selectThemeMode, setIsLoggedInAC } from "@/app/app-slice"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { getTheme } from "@/common/theme"
 import { type LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
-import { loginTC } from "@/features/auth/model/auth-slice"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
@@ -14,6 +13,9 @@ import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import styles from "./Login.module.css"
+import { useLoginMutation } from "@/features/auth/api/authApi.ts"
+import { ResultCode } from "@/common/enums"
+import { AUTH_TOKEN } from "@/common/constants"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -21,6 +23,8 @@ export const Login = () => {
   const dispatch = useAppDispatch()
 
   const theme = getTheme(themeMode)
+
+  const [login] = useLoginMutation()
 
   const {
     register,
@@ -34,8 +38,13 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginTC(data))
-    reset()
+    login(data).then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        localStorage.setItem(AUTH_TOKEN, res.data.data.token)
+        dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+        reset()
+      }
+    })
   }
 
   return (
