@@ -1,8 +1,8 @@
+import { baseApi } from "@/app/baseApi"
 import { instance } from "@/common/instance"
 import type { BaseResponse } from "@/common/types"
+import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
 import type { Todolist } from "./todolistsApi.types"
-import type { DomainTodolist } from "@/features/todolists/model/todolists-slice.ts"
-import { baseApi } from "@/app/baseApi.ts"
 
 export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -12,24 +12,24 @@ export const todolistsApi = baseApi.injectEndpoints({
         todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" })),
       providesTags: ["Todolist"],
     }),
-    createTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
+    addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
       query: (title) => ({
-        url: "/todo-lists",
+        url: "todo-lists",
         method: "POST",
         body: { title },
       }),
       invalidatesTags: ["Todolist"],
     }),
-    deleteTodolist: build.mutation<BaseResponse, string>({
+    removeTodolist: build.mutation<BaseResponse, string>({
       query: (id) => ({
-        url: `/todo-lists/${id}`,
+        url: `todo-lists/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Todolist"],
     }),
-    changeTodolistTitle: build.mutation<BaseResponse, { id: string; title: string }>({
-      query: ({ title, id }) => ({
-        url: `/todo-lists/${id}`,
+    updateTodolistTitle: build.mutation<BaseResponse, { id: string; title: string }>({
+      query: ({ id, title }) => ({
+        url: `todo-lists/${id}`,
         method: "PUT",
         body: { title },
       }),
@@ -40,12 +40,11 @@ export const todolistsApi = baseApi.injectEndpoints({
 
 export const {
   useGetTodolistsQuery,
-  useCreateTodolistMutation,
-  useDeleteTodolistMutation,
-  useChangeTodolistTitleMutation,
+  useAddTodolistMutation,
+  useRemoveTodolistMutation,
+  useUpdateTodolistTitleMutation,
 } = todolistsApi
 
-///////////////////////////////////////////////////////////////////////////////////////////////
 export const _todolistsApi = {
   getTodolists() {
     return instance.get<Todolist[]>("/todo-lists")
