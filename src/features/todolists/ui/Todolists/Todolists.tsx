@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper"
 import { TodolistItem } from "./TodolistItem/TodolistItem"
 
 export const Todolists = () => {
-  const { data: todolists } = useGetTodolistsQuery()
+  const { data: todolists, isLoading, isFetching, status } = useGetTodolistsQuery()
 
   return (
     <>
