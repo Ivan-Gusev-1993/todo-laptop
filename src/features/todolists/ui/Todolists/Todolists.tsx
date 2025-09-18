@@ -2,22 +2,27 @@ import { useGetTodolistsQuery } from "@/features/todolists/api/todolistsApi"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
 import { TodolistItem } from "./TodolistItem/TodolistItem"
-import { Skeleton } from "@mui/material"
+import Box from "@mui/material/Box"
+import { containerSx } from "@/common/styles"
+import { TodolistSkeleton } from "@/features/todolists/ui/Todolists/TodolistSkeleton/TodolistSkeleton.tsx"
 
 export const Todolists = () => {
-  const { data: todolists, isLoading, isFetching, status } = useGetTodolistsQuery()
+  const { data: todolists, isLoading } = useGetTodolistsQuery()
+
+  if (isLoading) {
+    return (
+      <Box sx={containerSx} style={{ gap: "32px" }}>
+        {Array(3)
+          .fill(null)
+          .map((_, id) => (
+            <TodolistSkeleton key={id} />
+          ))}
+      </Box>
+    )
+  }
 
   return (
     <>
-      <div>
-        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
-
-        {/* For other variants, adjust the size with `width` and `height` */}
-        <Skeleton variant="circular" width={40} height={40} />
-        <Skeleton variant="rectangular" width={210} height={60} />
-        <Skeleton variant="rounded" width={210} height={60} />
-      </div>
-
       {todolists?.map((todolist) => (
         <Grid key={todolist.id}>
           <Paper sx={{ p: "0 20px 20px 20px" }}>

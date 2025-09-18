@@ -3,6 +3,10 @@ import { useGetTasksQuery } from "@/features/todolists/api/tasksApi"
 import type { DomainTodolist } from "@/features/todolists/model/todolists-slice"
 import List from "@mui/material/List"
 import { TaskItem } from "./TaskItem/TaskItem"
+import { TasksSkeleton } from "@/features/todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton.tsx"
+import { useEffect } from "react"
+import { setAppErrorAC } from "@/app/app-slice.ts"
+import { useAppDispatch } from "@/common/hooks"
 
 type Props = {
   todolist: DomainTodolist
@@ -11,7 +15,14 @@ type Props = {
 export const Tasks = ({ todolist }: Props) => {
   const { id, filter } = todolist
 
-  const { data } = useGetTasksQuery(id)
+  const { data, isLoading, error } = useGetTasksQuery(id)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setAppErrorAC({ error: (error as any).data.message }))
+    }
+  }, [error])
 
   let filteredTasks = data?.items
   if (filter === "active") {
@@ -19,6 +30,10 @@ export const Tasks = ({ todolist }: Props) => {
   }
   if (filter === "completed") {
     filteredTasks = filteredTasks?.filter((task) => task.status === TaskStatus.Completed)
+  }
+
+  if (isLoading) {
+    return <TasksSkeleton />
   }
 
   return (
