@@ -14,17 +14,6 @@ export const Tasks = ({ todolist }: Props) => {
 
   const { data, isLoading } = useGetTasksQuery(id)
 
-  // useEffect(() => {
-  //   if (error) {
-  //     if ("status" in error) {
-  //       const errMsg = "error" in error ? error.error : JSON.stringify(error.data)
-  //       dispatch(setAppErrorAC({ error: errMsg }))
-  //     } else {
-  //       dispatch(setAppErrorAC({ error: error.message || "Some error occurred" }))
-  //     }
-  //   }
-  // }, [error])
-
   let filteredTasks = data?.items
   if (filter === "active") {
     filteredTasks = filteredTasks?.filter((task) => task.status === TaskStatus.New)

@@ -1,6 +1,6 @@
 import { AUTH_TOKEN } from "@/common/constants"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { setAppErrorAC } from "@/app/app-slice.ts"
+import { handleError } from "@/common/utils"
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
@@ -16,19 +16,7 @@ export const baseApi = createApi({
       },
     })(args, api, extraOptions)
 
-    if (result.error) {
-      if (
-        result.error.status === "TIMEOUT_ERROR" ||
-        result.error.status === "FETCH_ERROR" ||
-        //result.error.status === "PARSING_ERROR" ||
-        result.error.status === "CUSTOM_ERROR"
-      ) {
-        api.dispatch(setAppErrorAC({ error: result.error.error }))
-      }
-      if (result.error.status === "PARSING_ERROR") {
-        api.dispatch(setAppErrorAC({ error: "Error parsing parameters" }))
-      }
-    }
+    handleError(api, result)
 
     return result
   },
