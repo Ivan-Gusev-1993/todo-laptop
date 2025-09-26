@@ -5,6 +5,7 @@ import {
   selectThemeMode,
   setIsLoggedInAC,
 } from "@/app/app-slice.ts"
+import { baseApi } from "@/app/baseApi"
 import { NavButton } from "@/common/components/NavButton/NavButton"
 import { AUTH_TOKEN } from "@/common/constants"
 import { ResultCode } from "@/common/enums"
@@ -19,7 +20,6 @@ import IconButton from "@mui/material/IconButton"
 import LinearProgress from "@mui/material/LinearProgress"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
-import { baseApi } from "@/app/baseApi.ts"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)

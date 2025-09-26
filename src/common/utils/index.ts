@@ -1,5 +1,3 @@
 export { createAppSlice } from "./createAppSlice"
-export { handleServerAppError } from "./handleServerAppError"
-export { handleServerNetworkError } from "./handleServerNetworkError"
-export { isErrorWithMessage } from "./isErrorWithMessage.ts"
-export { handleError } from "./handleError.ts"
+export { handleError } from "./handleError"
+export { isErrorWithMessage } from "./isErrorWithMessage"

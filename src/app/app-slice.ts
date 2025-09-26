@@ -1,12 +1,12 @@
 import type { RequestStatus } from "@/common/types"
+import { tasksApi } from "@/features/todolists/api/tasksApi"
+import { todolistsApi } from "@/features/todolists/api/todolistsApi"
 import { createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit"
-import { todolistsApi } from "@/features/todolists/api/todolistsApi.ts"
-import { tasksApi } from "@/features/todolists/api/tasksApi.ts"
 
 export const appSlice = createSlice({
   name: "app",
   initialState: {
-    themeMode: "light" as ThemeMode,
+    themeMode: "dark" as ThemeMode,
     status: "idle" as RequestStatus,
     error: null as string | null,
     isLoggedIn: false,
@@ -16,6 +16,24 @@ export const appSlice = createSlice({
     selectAppStatus: (state) => state.status,
     selectAppError: (state) => state.error,
     selectIsLoggedIn: (state) => state.isLoggedIn,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isPending, (state, action) => {
+        if (
+          todolistsApi.endpoints.getTodolists.matchPending(action) ||
+          tasksApi.endpoints.getTasks.matchPending(action)
+        ) {
+          return
+        }
+        state.status = "loading"
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = "succeeded"
+      })
+      .addMatcher(isRejected, (state) => {
+        state.status = "failed"
+      })
   },
   reducers: (create) => ({
     changeThemeModeAC: create.reducer<{ themeMode: ThemeMode }>((state, action) => {
@@ -31,25 +49,6 @@ export const appSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn
     }),
   }),
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(isPending, (state, action) => {
-        if (
-          todolistsApi.endpoints.getTodolists.matchPending(action) ||
-          tasksApi.endpoints.getTasks.matchPending(action)
-        ) {
-          return
-        }
-
-        state.status = "loading"
-      })
-      .addMatcher(isFulfilled, (state) => {
-        state.status = "succeeded"
-      })
-      .addMatcher(isRejected, (state) => {
-        state.status = "failed"
-      })
-  },
 })
 
 export const { selectThemeMode, selectAppStatus, selectAppError, selectIsLoggedIn } = appSlice.selectors

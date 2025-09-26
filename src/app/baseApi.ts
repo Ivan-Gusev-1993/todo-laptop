@@ -1,13 +1,11 @@
 import { AUTH_TOKEN } from "@/common/constants"
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { handleError } from "@/common/utils"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 export const baseApi = createApi({
-  reducerPath: "baseApi",
+  reducerPath: "todolistsApi",
   tagTypes: ["Todolist", "Task"],
   baseQuery: async (args, api, extraOptions) => {
-    await new Promise((resolve) => setTimeout(resolve, 200))
-
     const result = await fetchBaseQuery({
       baseUrl: import.meta.env.VITE_BASE_URL,
       prepareHeaders: (headers) => {
@@ -20,6 +18,5 @@ export const baseApi = createApi({
 
     return result
   },
-
   endpoints: () => ({}),
 })
