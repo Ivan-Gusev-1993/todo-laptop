@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid"
 
 export const Main = () => {
   const [addTodolist] = useAddTodolistMutation()
+  console.log("render")
 
   return (
     <Container maxWidth={"lg"}>
