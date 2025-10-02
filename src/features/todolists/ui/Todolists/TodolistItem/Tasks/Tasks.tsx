@@ -16,7 +16,10 @@ export const Tasks = ({ todolist }: Props) => {
 
   const [page, setPage] = useState(1)
 
-  const { data, isLoading } = useGetTasksQuery({ todolistId: id, params: { page } }, { refetchOnFocus: true })
+  const { data, isLoading } = useGetTasksQuery(
+    { todolistId: id, params: { page } },
+    { pollingInterval: 30000, skipPollingIfUnfocused: true },
+  )
 
   let filteredTasks = data?.items
   if (filter === "active") {
