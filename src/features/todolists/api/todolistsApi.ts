@@ -46,6 +46,7 @@ export const todolistsApi = baseApi.injectEndpoints({
         method: "PUT",
         body: { title },
       }),
+
       invalidatesTags: ["Todolist"],
     }),
   }),
