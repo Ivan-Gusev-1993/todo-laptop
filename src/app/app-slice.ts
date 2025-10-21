@@ -55,4 +55,4 @@ export const { selectThemeMode, selectAppStatus, selectAppError, selectIsLoggedI
 export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC, setIsLoggedInAC } = appSlice.actions
 export const appReducer = appSlice.reducer
 
-export type ThemeMode = "dark" | "light"
+export type ThemeMode = "light" | "dark"
